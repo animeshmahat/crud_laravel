@@ -23,7 +23,6 @@ class InformationController extends Controller
     }
     public function store(Request $request)
     {
-        //dd($request->all());
         $request->validate([
             'name'    => 'required|max:255|min:2',
             'email'   => 'required|email|regex:/(.+)@(.+)\.(.+)/i',
@@ -34,22 +33,24 @@ class InformationController extends Controller
             'detail'  => 'max:255|nullable'
         ]);
 
-        $model                  = new Information;
-        $model->name            = $request->name;
-        $model->email           = $request->email;
-        $model->phone           = $request->phone;
-        $model->gender          = $request->gender;
-        $model->faculty         = $request->faculty;
-        $model->detail          = $request->detail;
-        $model->timestamps      = $request->timestamps;
-        $success                = $model->save();
-        if ($success) {
+        $model = new Information;
+        $model->name = $request->name;
+        $model->email = $request->email;
+        $model->phone = $request->phone;
+        $model->gender = $request->gender;
+        $model->faculty = $request->faculty;
+        $model->status = $request->status ? true : false;
+        $model->detail = $request->detail;
+        $success = $model->save();
 
-            return view('index', compact('data'))->with('session', 'New information created successfully.');
+        if ($success) {
+            $data = Information::all();
+            return redirect()->route('application.index')->with('success', 'New information created successfully.');
         } else {
             return view('index');
         }
     }
+
     public function edit($id)
     {
         $model = new Information;
@@ -59,7 +60,6 @@ class InformationController extends Controller
 
     public function update(Request $request, $id)
     {
-        // dd($request->name);
         $request->validate([
             'name'    => 'required|max:255|min:2',
             'email'   => 'required|email|regex:/(.+)@(.+)\.(.+)/i',
@@ -70,22 +70,24 @@ class InformationController extends Controller
             'detail'  => 'max:255|nullable'
         ]);
 
-        $model                 = new Information;
-        $data                  = $model->findOrfail($id);
-        $data->name            = $request->name;
-        $data->email           = $request->email;
-        $data->phone           = $request->phone;
-        $data->gender          = $request->gender;
-        $data->faculty         = $request->faculty;
-        $data->detail          = $request->detail;
-        $success               = $data->save();
+        $data = Information::findOrFail($id);
+        $data->name    = $request->name;
+        $data->email   = $request->email;
+        $data->phone   = $request->phone;
+        $data->gender  = $request->gender;
+        $data->faculty = $request->faculty;
+        $data->status  = $request->status ? true : false;
+        $data->detail  = $request->detail;
+        $success       = $data->save();
+
         if ($success) {
-            $data = DB::table('information')->get();
-            return view('index', compact('data'));
+            $data = Information::all();
+            return redirect()->route('application.index')->with('update_success', 'Information updated successfully.');
         } else {
             return view('index');
         }
     }
+
     public function view()
     {
         return view('view');

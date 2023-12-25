@@ -10,14 +10,23 @@
 </head>
 
 <body>
+    @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+
+    @if(session('update_success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('update_success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+
     <div class="container"><br><br>
         <div class="row">
             <div class="col-12 px-4">
-                @if (session()->has('message'))
-                <div class="alert alert-success" role="alert">
-                    {{ session()->get('message') }}
-                </div>
-                @endif
                 <a href="{{ route('application.create')}}" class="btn btn-success btn-sm mx-3"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add New</a>
                 <table class="table table-bordered table-hover m-3">
                     <thead>
@@ -61,6 +70,8 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-rU4HRfbzvkuWDk8kXYMouG8j1r1Eu4l4d+/Srdz3BE5KAViAS1FbQyV4h1N5ww0y" crossorigin="anonymous"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.all.min.js"></script>
     <script>
         function confirmDelete(id) {

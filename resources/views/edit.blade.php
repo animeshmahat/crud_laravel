@@ -79,7 +79,7 @@
                             <p>Status :</p>
                         </div>
                         <div class="form-check m-3">
-                            <input type="checkbox" id="status" value="{{ $data->status }}" @if($data->status) checked @endif>
+                            <input type="checkbox" id="status" name="status" value="1" {{ $data->status ? 'checked' : '' }}>
                         </div>
                     </div>
                     <div class="m-3">
