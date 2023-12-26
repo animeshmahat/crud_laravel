@@ -44,8 +44,8 @@ class InformationController extends Controller
         $success = $model->save();
 
         if ($success) {
-            $data = Information::all();
-            return redirect()->route('application.index')->with('success', 'New information created successfully.');
+            $model = Information::all();
+            return redirect()->route('application.index')->with('success', 'New information added successfully.');
         } else {
             return view('index');
         }
