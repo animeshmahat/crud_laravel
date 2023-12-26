@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\DB;
 
 class InformationController extends Controller
 {
+
+    protected $model;
+    public function __construct()
+    {
+        $this->model = new Information();
+    }
     public function application()
     {
         return view('welcome');
@@ -30,21 +36,30 @@ class InformationController extends Controller
             'gender'  => 'required',
             'faculty' => 'required',
             'status'  => 'nullable|boolean',
+            'image'   => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'detail'  => 'max:255|nullable'
         ]);
 
-        $model = new Information;
-        $model->name = $request->name;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move('public_path'('uploads'), $imageName);
+        } else {
+            $imageName = null;
+        }
+
+        $model     = $this->model;
+        $model->name  = $request->name;
         $model->email = $request->email;
         $model->phone = $request->phone;
         $model->gender = $request->gender;
         $model->faculty = $request->faculty;
         $model->status = $request->status ? true : false;
+        $model->image = $imageName;
         $model->detail = $request->detail;
         $success = $model->save();
 
         if ($success) {
-            $model = Information::all();
             return redirect()->route('application.index')->with('success', 'New information added successfully.');
         } else {
             return view('index');
@@ -53,8 +68,7 @@ class InformationController extends Controller
 
     public function edit($id)
     {
-        $model = new Information;
-        $data = $model->findOrFail($id);
+        $data =  $this->model->findOrFail($id);
         return view('edit', compact('data'));
     }
 
@@ -70,7 +84,7 @@ class InformationController extends Controller
             'detail'  => 'max:255|nullable'
         ]);
 
-        $data = Information::findOrFail($id);
+        $data =  $this->model::findOrFail($id);
         $data->name    = $request->name;
         $data->email   = $request->email;
         $data->phone   = $request->phone;
@@ -81,21 +95,21 @@ class InformationController extends Controller
         $success       = $data->save();
 
         if ($success) {
-            $data = Information::all();
             return redirect()->route('application.index')->with('update_success', 'Information updated successfully.');
         } else {
             return view('index');
         }
     }
 
-    public function view()
+    public function view($id)
     {
-        return view('view');
+        $data = $this->model->findOrFail($id);
+        return view('view', compact('data'));
     }
 
     public function delete($id)
     {
-        $model = new Information;
+        $model =  $this->model;
         $data = $model->findOrFail($id);
         $success = $data->delete();
         if ($success) {

@@ -21,6 +21,7 @@ class CreateInformationTable extends Migration
             $table->string('gender');
             $table->string('faculty');
             $table->boolean('status')->default(true);
+            $table->string('image')->nullable();
             $table->text('detail')->nullable();
             $table->timestamps();
         });

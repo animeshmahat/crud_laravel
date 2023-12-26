@@ -91,6 +91,14 @@
                     </div>
 
                     <div class="m-3">
+                        <label for="image" class="form-label">New Image :</label>
+                        <input type="file" name="image" id="image" class="form-control" accept="image/png, image/gif, image/jpeg">
+                        @error('image')
+                        <p class="validate">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="m-3">
                         <label for="detail" class="form-label">Details :</label>
                         <textarea class="form-control" name="detail" id="detail" cols="30" rows="3" placeholder="Enter Message..." style="resize: none;" value="">{{ $data->detail }}</textarea>
                         @error('detail')

@@ -90,6 +90,13 @@
                         <p class="validate">{{ $message }}</p>
                         @enderror
                     </div>
+                    <div class="m-3">
+                        <label for="image" class="form-label">Image :</label>
+                        <input type="file" name="image" id="image" class="form-control" accept="image/png, image/gif, image/jpeg">
+                        @error('detail')
+                        <p class="validate">{{ $message }}</p>
+                        @enderror
+                    </div>
                     <a href="{{ route('application.index') }}" class="btn btn-danger m-3"><i class="fa fa-ban" aria-hidden="true"></i> CANCEL</a>
                     <button type="reset" class="btn btn-secondary m-3"><i class="fa fa-refresh" aria-hidden="true"></i> RESET</button>
                     <button type="submit" class="btn btn-success m-3"><i class="fa fa-paper-plane" aria-hidden="true"></i> SUBMIT</button>

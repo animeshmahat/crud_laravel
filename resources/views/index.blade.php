@@ -10,6 +10,12 @@
 </head>
 
 <body>
+    @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
 
     @if(session('update_success'))
     <div class="alert alert-info alert-dismissible fade show" role="alert">
@@ -28,14 +34,8 @@
     <div class="container my-3">
         <div class="row">
             <div class="col-12 px-4">
-                @if(session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                @endif
                 <a href="{{ route('application.create')}}" class="btn btn-success btn-sm mx-3"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add New</a>
-                <table class="table table table-striped table-bordered table-hover m-3">
+                <table class="table table-sm table-striped table-hover m-3">
                     <thead>
                         <tr class="table-dark">
                             <th scope="col">S.N</th>
@@ -46,6 +46,7 @@
                             <th scope="col">Faculty</th>
                             <th scope="col">Status</th>
                             <th scope="col">Details</th>
+                            <th scope="col">Image</th>
                             <th class="col">Action</th>
                         </tr>
                     </thead>
@@ -67,8 +68,12 @@
                             </td>
                             <td>{{ $row -> detail}}</td>
                             <td style="text-align: center;">
-                                <a href="{{ route('application.edit', ['id'=>$row->id])}}" class="btn btn-warning btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;Edit</a>
-                                <a href="{{ route('application.delete', ['id'=>$row->id]) }}" class="btn btn-danger btn-sm" onclick="confirmDelete('{{ $row->id }}')"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete</a>
+                                <img src="{{ asset('uploads/' . $row->image) }}" alt="User Image" class="img-thumbnail" style="max-width: 50px; max-height: 50px;">
+                            </td>
+                            <td style="text-align: center;">
+                                <a href="{{ route('application.edit', ['id'=> $row->id])}}" class="btn btn-warning btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;Edit</a>
+                                <a href="{{ route('application.delete', ['id'=> $row->id]) }}" class="btn btn-danger btn-sm" onclick="confirmDelete('{{ $row->id }}')"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete</a>
+                                <a href="{{ route('application.view', ['id' => $row->id]) }}" class="btn btn-secondary btn-sm"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;View</a>
                             </td>
                         </tr>
                         @endforeach
