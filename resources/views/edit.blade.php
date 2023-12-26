@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <title>Update</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.0/css/font-awesome.css" integrity="sha512-CB+XYxRC7cXZqO/8cP3V+ve2+6g6ynOnvJD6p4E4y3+wwkScH9qEOla+BTHzcwB4xKgvWn816Iv0io5l3rAOBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         .validate {
@@ -19,6 +19,8 @@
     <div class="container" style="border:1px solid #C1C1C1;">
         <div class="row">
             <div class="col-12 px-3">
+                <h2 class="mx-3 my-1">EDIT INFORMATION</h2>
+                <hr>
                 <form action="{{ route( 'application.update', ['id'=>$data->id]) }}" method="PUT" enctype="multipart/form-data">
                     @csrf
                     {{ method_field('PUT') }}
@@ -29,6 +31,7 @@
                         <p class="validate m-1">{{ $message }}</p>
                         @enderror
                     </div>
+
                     <div class="m-3">
                         <label for="email" class="form-label">Email :</label>
                         <input class="form-control" name="email" id="email" placeholder="Enter Email" value="{{ $data->email }}">
@@ -36,13 +39,15 @@
                         <p class="validate m-1">{{ $message }}</p>
                         @enderror
                     </div>
+
                     <div class="m-3">
                         <label for="phone" class="form-label">Phone :</label>
-                        <input type="text" class="form-control" name="phone" id="phone" placeholder="Enter Your Phone Number" value="{{ $data->phone }}">
+                        <input type="text" class="form-control" name="phone" id="phone" placeholder="Enter Phone Number" value="{{ $data->phone }}">
                         @error('phone')
                         <p class="validate m-1">{{ $message }}</p>
                         @enderror
                     </div>
+
                     <div class="d-flex flex-row">
                         <div class="m-3">
                             <p>Gender :</p>
@@ -63,6 +68,7 @@
                         <p class="validate m-3">{{ $message }}</p>
                         @enderror
                     </div>
+
                     <div class="m-3">
                         <label for="faculty" class="form-label">Faculty :</label>
                         <select name="faculty" id="faculty" class="form-control">
@@ -74,6 +80,7 @@
                         <p class="validate">{{ $message }}</p>
                         @enderror
                     </div>
+
                     <div class="d-flex flex-row">
                         <div class="m-3">
                             <p>Status :</p>
@@ -82,6 +89,7 @@
                             <input type="checkbox" id="status" name="status" value="1" {{ $data->status ? 'checked' : '' }}>
                         </div>
                     </div>
+
                     <div class="m-3">
                         <label for="detail" class="form-label">Details :</label>
                         <textarea class="form-control" name="detail" id="detail" cols="30" rows="3" placeholder="Enter Message..." style="resize: none;" value="">{{ $data->detail }}</textarea>
@@ -96,7 +104,7 @@
                 </form>
             </div>
         </div>
-
+        <hr>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>

@@ -99,7 +99,9 @@ class InformationController extends Controller
         $data = $model->findOrFail($id);
         $success = $data->delete();
         if ($success) {
-            return redirect(route('application.index'));
+            return redirect(route('application.index'))->with('delete_success', 'Information deleted successfully.');
+        } else {
+            return view('index');
         }
     }
 }
