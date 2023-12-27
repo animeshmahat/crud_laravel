@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Information;
+use GuzzleHttp\Psr7\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class InformationController extends Controller
 {
@@ -27,18 +29,23 @@ class InformationController extends Controller
     {
         return view('create');
     }
+
     public function store(Request $request)
     {
-        $request->validate([
-            'name'    => 'required|max:255|min:2',
-            'email'   => 'required|email|regex:/(.+)@(.+)\.(.+)/i',
-            'phone'   => 'required|nullable',
-            'gender'  => 'required',
-            'faculty' => 'required',
-            'status'  => 'nullable|boolean',
-            'image'   => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'detail'  => 'max:255|nullable'
-        ]);
+        $validator = $this->model->getRules($request->all());
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $model          = $this->model;
+        $model->name    = $request->name;
+        $model->email   = $request->email;
+        $model->phone   = $request->phone;
+        $model->gender  = $request->gender;
+        $model->faculty = $request->faculty;
+        $model->status  = $request->status ? true : false;
+        $model->detail  = $request->detail;
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -47,17 +54,8 @@ class InformationController extends Controller
         } else {
             $imageName = null;
         }
-
-        $model     = $this->model;
-        $model->name  = $request->name;
-        $model->email = $request->email;
-        $model->phone = $request->phone;
-        $model->gender = $request->gender;
-        $model->faculty = $request->faculty;
-        $model->status = $request->status ? true : false;
-        $model->image = $imageName;
-        $model->detail = $request->detail;
-        $success = $model->save();
+        $model->image   = $imageName;
+        $success        = $model->save();
 
         if ($success) {
             return redirect()->route('application.index')->with('success', 'New information added successfully.');
@@ -74,17 +72,14 @@ class InformationController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name'    => 'required|max:255|min:2',
-            'email'   => 'required|email|regex:/(.+)@(.+)\.(.+)/i',
-            'phone'   => 'required|nullable',
-            'gender'  => 'required',
-            'faculty' => 'required',
-            'status'  => 'nullable|boolean',
-            'detail'  => 'max:255|nullable'
-        ]);
+        $data = $this->model::findOrFail($id);
 
-        $data =  $this->model::findOrFail($id);
+        $validator = $this->model->getRules($request->all());
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
         $data->name    = $request->name;
         $data->email   = $request->email;
         $data->phone   = $request->phone;
@@ -92,15 +87,26 @@ class InformationController extends Controller
         $data->faculty = $request->faculty;
         $data->status  = $request->status ? true : false;
         $data->detail  = $request->detail;
-        $success       = $data->save();
 
+        if ($request->hasFile('image')) {
+            $image_path = public_path("uploads/{$data->image}");
+            if (file_exists($image_path)) {
+                unlink($image_path);
+            }
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move('public_path'('uploads'), $imageName);
+            $data->image    = $imageName;
+        } else {
+            $imageName = null;
+        }
+        $success        = $data->save();
         if ($success) {
             return redirect()->route('application.index')->with('update_success', 'Information updated successfully.');
         } else {
             return view('index');
         }
     }
-
     public function view($id)
     {
         $data = $this->model->findOrFail($id);
@@ -111,7 +117,15 @@ class InformationController extends Controller
     {
         $model =  $this->model;
         $data = $model->findOrFail($id);
+
+        if ($data->image) {
+            $image_path = public_path("uploads/{$data->image}");
+            if (file_exists($image_path)) {
+                unlink($image_path);
+            }
+        }
         $success = $data->delete();
+
         if ($success) {
             return redirect(route('application.index'))->with('delete_success', 'Information deleted successfully.');
         } else {

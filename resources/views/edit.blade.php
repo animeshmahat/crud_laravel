@@ -21,9 +21,9 @@
             <div class="col-12 px-3">
                 <h2 class="mx-3 my-1">EDIT INFORMATION</h2>
                 <hr>
-                <form action="{{ route( 'application.update', ['id'=>$data->id]) }}" method="PUT" enctype="multipart/form-data">
+                <form action="{{ route( 'application.update', ['id'=>$data->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    {{ method_field('PUT') }}
+                    {{ method_field('POST') }}
                     <div class="m-3 flex">
                         <label for="name" class="form-label">Name :</label>
                         <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="{{ $data->name }}">
@@ -72,9 +72,9 @@
                     <div class="m-3">
                         <label for="faculty" class="form-label">Faculty :</label>
                         <select name="faculty" id="faculty" class="form-control">
-                            <option value="bca" @if($data->faculty =='bca') selected @endif >BCA</option>
-                            <option value="bit" @if($data->faculty =='bit') selected @endif >BIT</option>
-                            <option value="bsc" @if($data->faculty =='bsc') selected @endif >BSC</option>
+                            <option value="BCA" @if($data->faculty =='BCA') selected @endif >BCA</option>
+                            <option value="BIT" @if($data->faculty =='BIT') selected @endif >BIT</option>
+                            <option value="BSC" @if($data->faculty =='BSC') selected @endif >BSC</option>
                         </select>
                         @error('faculty')
                         <p class="validate">{{ $message }}</p>
@@ -96,13 +96,21 @@
                         @error('image')
                         <p class="validate">{{ $message }}</p>
                         @enderror
+
+                        <div class="col-3 p-2" style="border:1px solid #C1C1C1; max-width:fit-content;">
+                            @if($data->image)
+                            <span>Current Image: </span><img src="{{asset('uploads/'.$data->image)}}" alt="" class="img img-responsive " width="120px">
+                            @else
+                            <p>Image Not Found!!!</p>
+                            @endif
+                        </div>
                     </div>
 
                     <div class="m-3">
                         <label for="detail" class="form-label">Details :</label>
                         <textarea class="form-control" name="detail" id="detail" cols="30" rows="3" placeholder="Enter Message..." style="resize: none;" value="">{{ $data->detail }}</textarea>
                         @error('detail')
-                        <p class="validate">{{ $message }}</p>
+                        <p class=" validate">{{ $message }}</p>
                         @enderror
                     </div>
 

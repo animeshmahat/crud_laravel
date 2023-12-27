@@ -67,9 +67,9 @@
                     <div class="m-3">
                         <label for="faculty" class="form-label">Faculty :</label>
                         <select name="faculty" id="faculty" class="form-control">
-                            <option value="bca">BCA</option>
-                            <option value="bit" selected>BIT</option>
-                            <option value="bsc">BSC</option>
+                            <option value="BCA">BCA</option>
+                            <option value="BIT" selected>BIT</option>
+                            <option value="BSC">BSC</option>
                         </select>
                         @error('faculty')
                         <p class="validate">{{ $message }}</p>
@@ -93,7 +93,7 @@
                     <div class="m-3">
                         <label for="image" class="form-label">Image :</label>
                         <input type="file" name="image" id="image" class="form-control" accept="image/png, image/gif, image/jpeg">
-                        @error('detail')
+                        @error('image')
                         <p class="validate">{{ $message }}</p>
                         @enderror
                     </div>

@@ -9,27 +9,18 @@
 </head>
 
 <body>
-    <div class="container my-3">
-        <h2>VIEW INFORMATION</h2>
-
+    <div class="container my-3" style="border: 1px solid #c1c1c1;">
+        <h2> {{ $data->name }}'s Information </h2>
         <hr>
-
         <div class="row">
             <div class="col-md-6">
-                <p><strong>Name: </strong> {{ $data->name }}</p>
+                <img src="{{ asset('uploads/' . $data->image) }}" alt="User Image" class="img-thumbnail" style="max-width: 250px; max-height: 250px;">
                 <hr>
-                <p><strong>Email: </strong> {{ $data->email }}</p>
+                <p><strong>Name : </strong> {{ $data->name }}</p>
                 <hr>
-                <p><strong>Phone: </strong> {{ $data->phone }}</p>
+                <p><strong>Email : </strong> {{ $data->email }}</p>
                 <hr>
-                <p><strong>Gender: </strong> {{ $data->gender }}</p>
-                <hr>
-                <p><strong>Faculty: </strong> {{ $data->faculty }}</p>
-                <hr>
-            </div>
-
-            <div class="col-md-6">
-                <p><strong>Status: </strong>
+                <p><strong>Status : </strong>
                     @if($data->status == 1)
                     <span class="badge bg-success">ACTIVE</span>
                     @else
@@ -37,19 +28,20 @@
                     @endif
                 </p>
                 <hr>
+            </div>
+            <div class="col-md-6">
 
-                <p><strong>Details: </strong> {{ $data->detail }}</p>
+                <p><strong>Details : </strong> {{ $data->detail }}</p>
                 <hr>
-
-                <p><strong>Image: </strong></p>
+                <p><strong>Phone : </strong> {{ $data->phone }}</p>
                 <hr>
-                <img src="{{ asset('uploads/' . $data->image) }}" alt="User Image" class="img-thumbnail" style="max-width: 200px; max-height: 200px;">
+                <p><strong>Gender : </strong> {{ $data->gender }}</p>
+                <hr>
+                <p><strong>Faculty : </strong> {{ $data->faculty }}</p>
+                <hr>
             </div>
         </div>
-
-        <hr>
-
-        <a href="{{ route('application.index') }}" class="btn btn-outline-primary">Back to List</a>
+        <a href="{{ route('application.index') }}" class="btn btn-outline-primary mb-3">Back to List</a>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
