@@ -7,6 +7,18 @@
     <title>Index</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.0/css/font-awesome.css" integrity="sha512-CB+XYxRC7cXZqO/8cP3V+ve2+6g6ynOnvJD6p4E4y3+wwkScH9qEOla+BTHzcwB4xKgvWn816Iv0io5l3rAOBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .img-thumbnail {
+            max-width: 120px;
+            max-height: 100px;
+            border: 1px solid #000000;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .img-thumbnail:hover {
+            transform: scale(1.8);
+        }
+    </style>
 </head>
 
 <body>
@@ -37,7 +49,7 @@
                 <a href="{{ route('application.create')}}" class="btn btn-success btn-sm mx-3"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add New</a>
                 <table class="table table-sm table-hover m-3">
                     <thead>
-                        <tr class="table-secondary" style="text-align: center;">
+                        <tr class="table-primary" style="text-align: center;">
                             <th scope="col">S.N</th>
                             <th scope="col">Name</th>
                             <th scope="col">Image</th>
@@ -81,7 +93,7 @@
                             <td class="d-flex flex-column">
                                 <a href="{{ route('application.view', ['id' => $row->id]) }}" class="btn btn-secondary btn-sm m-1"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;View</a>
                                 <a href="{{ route('application.edit', ['id'=> $row->id]) }}" class="btn btn-warning btn-sm m-1"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;Edit</a>
-                                <a href="{{ route('application.delete', ['id'=> $row->id]) }}" class="btn btn-danger btn-sm m-1" onclick="return confirm('Are you sure?')"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete</a>
+                                <a href="{{ route('application.delete', ['id'=> $row->id]) }}" class="btn btn-danger btn-sm m-1" onclick="return confirm('Permanently delete this record?')"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete</a>
                             </td>
                         </tr>
                         @endforeach

@@ -85,28 +85,32 @@ class InformationController extends Controller
         $data->phone   = $request->phone;
         $data->gender  = $request->gender;
         $data->faculty = $request->faculty;
-        $data->status  = $request->status ? true : false;
+        $data->status  = $request->status;
         $data->detail  = $request->detail;
 
         if ($request->hasFile('image')) {
-            $image_path = public_path("uploads/{$data->image}");
-            if (file_exists($image_path)) {
-                unlink($image_path);
+            if ($data->image) {
+                $image_path = public_path("uploads/{$data->image}");
+                if (file_exists($image_path)) {
+                    unlink($image_path);
+                }
             }
+
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move('public_path'('uploads'), $imageName);
-            $data->image    = $imageName;
-        } else {
-            $imageName = null;
+            $image->move(public_path('uploads'), $imageName);
+            $data->image = $imageName;
         }
-        $success        = $data->save();
+
+        $success = $data->save();
+
         if ($success) {
             return redirect()->route('application.index')->with('update_success', 'Information updated successfully.');
         } else {
             return view('index');
         }
     }
+
     public function view($id)
     {
         $data = $this->model->findOrFail($id);

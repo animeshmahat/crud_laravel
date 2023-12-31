@@ -13,16 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get("/application", function () {
-    return view("welcome");
-});
+
 
 Route::group(['prefix' => 'application', 'as' => 'application.'], function () {
     Route::get('/',                       [App\Http\Controllers\InformationController::class, 'index'])->name('index');
     Route::get('/create',                 [App\Http\Controllers\InformationController::class, 'create'])->name('create');
     Route::post('/',                      [App\Http\Controllers\InformationController::class, 'store'])->name('store');
     Route::get('/edit/{id}',              [App\Http\Controllers\InformationController::class, 'edit'])->name('edit');
-    Route::post('/update/{id}',            [App\Http\Controllers\InformationController::class, 'update'])->name('update');
+    Route::post('/update/{id}',           [App\Http\Controllers\InformationController::class, 'update'])->name('update');
     Route::get('/view/{id}',              [App\Http\Controllers\InformationController::class, 'view'])->name('view');
     Route::get('/delete/{id}',            [App\Http\Controllers\InformationController::class, 'delete'])->name('delete');
 });
